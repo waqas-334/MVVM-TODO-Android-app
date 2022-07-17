@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MVVM Shopping List</string>
+    <string name="invalid_value">Invalid Value</string>
+</resources>
