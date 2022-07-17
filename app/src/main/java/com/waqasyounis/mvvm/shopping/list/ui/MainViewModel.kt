@@ -3,11 +3,17 @@ package com.waqasyounis.mvvm.shopping.list.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
-import com.waqasyounis.mvvm.shopping.list.db.repository.ShoppingItemRepository
+import com.waqasyounis.mvvm.shopping.list.db.repository.ShoppingItemRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel(private val repository: ShoppingItemRepository) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: ShoppingItemRepositoryImpl
+) :
+    ViewModel() {
 
     fun getAllItems() = repository.getAllItem()
     fun addItems(shoppingItems: List<ShoppingItem>) {

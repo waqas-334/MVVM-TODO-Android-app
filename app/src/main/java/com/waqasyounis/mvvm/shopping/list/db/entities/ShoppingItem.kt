@@ -13,14 +13,14 @@ data class ShoppingItem(
 
     fun increase(): ShoppingItem {
         val addedItem = this.copy(noOfItems = this.noOfItems + 1)
-        addedItem.id = this.id
+        addedItem.id = this.id //For some reason, the copy function was not copying the ID,
         return addedItem
     }
 
     fun decrease(): ShoppingItem {
         if (this.noOfItems == 0) return this
         val addedItem = this.copy(noOfItems = this.noOfItems - 1)
-        addedItem.id = this.id
+        addedItem.id = this.id //For some reason, the copy function was not copying the ID,
         return addedItem
     }
 

@@ -9,16 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.waqasyounis.mvvm.shopping.list.databinding.ActivityMainBinding
 import com.waqasyounis.mvvm.shopping.list.db.AppDatabase
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
-import com.waqasyounis.mvvm.shopping.list.db.repository.ShoppingItemRepository
+import com.waqasyounis.mvvm.shopping.list.db.repository.ShoppingItemRepositoryImpl
 import com.waqasyounis.mvvm.shopping.list.ui.adapter.ItemListener
 import com.waqasyounis.mvvm.shopping.list.ui.adapter.ShoppingItemAdapter
 import com.waqasyounis.mvvm.shopping.list.util.DummyData
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 private const val TAG = "MainActivity"
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ItemListener {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
+
     private lateinit var binding: ActivityMainBinding
     private val adapter = ShoppingItemAdapter()
 
@@ -28,19 +32,12 @@ class MainActivity : AppCompatActivity(), ItemListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val database = AppDatabase(this)
-        val repository = ShoppingItemRepository(database.shoppingItemDao)
-        val factory = ShoppingViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
-
         initViews()
         initDatabase()
     }
 
     private fun initDatabase() {
         viewModel.getAllItems().observe(this) {
-            Log.d(TAG, "initDatabase: $it")
             adapter.allItems = it
         }
     }

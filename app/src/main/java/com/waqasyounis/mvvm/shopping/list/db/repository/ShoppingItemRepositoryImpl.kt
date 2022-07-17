@@ -3,8 +3,10 @@ package com.waqasyounis.mvvm.shopping.list.db.repository
 import androidx.room.Update
 import com.waqasyounis.mvvm.shopping.list.db.dao.ShoppingItemDao
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
+import javax.inject.Inject
 
-class ShoppingItemRepository(
+class ShoppingItemRepositoryImpl @Inject
+constructor(
     private val dao: ShoppingItemDao
 ) {
 
