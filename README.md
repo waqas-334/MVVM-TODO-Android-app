@@ -30,6 +30,12 @@ This is Waqas, an indie Android Developer.
 
 [Follow me on LinkedIn](https://www.linkedin.com/in/waqas-younis-3587a9119/)
 
+##UPDATE JAN 2023
+
+- Made the UI further beautiful
+- Added Swipe to Delete and undo option 
+- Optimised RecyclerView performance by using DiffUtils,
+
 
 
 

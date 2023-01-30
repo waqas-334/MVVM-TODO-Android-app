@@ -3,6 +3,7 @@ package com.waqasyounis.mvvm.shopping.list.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
+import com.waqasyounis.mvvm.shopping.list.ui.SortOrder
 
 @Dao
 interface ShoppingItemDao {
@@ -24,5 +25,16 @@ interface ShoppingItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(item: ShoppingItem)
+
+    fun sort(sortOrder: SortOrder) = when(sortOrder){
+        SortOrder.QUANTITY_ASC -> sortByQuantityAsc()
+        SortOrder.QUANTITY_DESC -> sortByQuantityDesc()
+    }
+
+    @Query("SELECT * FROM shoppingitem ORDER BY noOfItems ASC")
+    abstract fun sortByQuantityAsc(): LiveData<List<ShoppingItem>>
+
+    @Query("SELECT * FROM shoppingitem ORDER BY noOfItems DESC")
+    abstract fun sortByQuantityDesc(): LiveData<List<ShoppingItem>>
 
 }

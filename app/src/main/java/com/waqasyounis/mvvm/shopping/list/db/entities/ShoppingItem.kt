@@ -3,10 +3,16 @@ package com.waqasyounis.mvvm.shopping.list.db.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+enum class Priority {
+    HIGH,
+    LOW,
+    MEDIUM
+}
 @Entity
 data class ShoppingItem(
     val name: String,
-    val noOfItems: Int
+    val noOfItems: Int,
+    val priority: Priority
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

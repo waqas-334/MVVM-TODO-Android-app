@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.waqasyounis.mvvm.shopping.list.R
 import com.waqasyounis.mvvm.shopping.list.databinding.BottomsheetAddItemBinding
+import com.waqasyounis.mvvm.shopping.list.db.entities.Priority
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
 import java.lang.NumberFormatException
 
@@ -20,7 +21,7 @@ class AddItemBottomSheet : BottomSheetDialogFragment() {
         val INSTANCE: AddItemBottomSheet by lazy { AddItemBottomSheet() }
     }
 
-    var onOkayClickListener: OnOkayClickListener? = null
+    private var onOkayClickListener: OnOkayClickListener? = null
     private lateinit var item: ShoppingItem
 
     private lateinit var binding: BottomsheetAddItemBinding
@@ -62,14 +63,27 @@ class AddItemBottomSheet : BottomSheetDialogFragment() {
 
                 item = ShoppingItem(
                     name = name,
-                    noOfItems = quantity
+                    noOfItems = quantity,
+                    priority = getCheckPriority()
                 )
                 onOkayClickListener?.let {
                     it(item)
                 }
 
+                tietName.clearComposingText()
+                tietQuantity.clearComposingText()
+
                 if (isVisible) dismiss()
             }
+
+        }
+    }
+
+    private fun getCheckPriority():Priority{
+        return when(binding.rgPriority.checkedRadioButtonId){
+            R.id.rb_high -> Priority.HIGH
+            R.id.rb_medium -> Priority.MEDIUM
+            else -> Priority.LOW
 
         }
     }

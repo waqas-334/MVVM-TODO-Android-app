@@ -1,88 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    app:cardCornerRadius="8dp">
+    android:padding="12dp"
+    android:background="@android:color/white"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_constraintEnd_toStartOf="@+id/tv_items"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Apple" />
-
-        <TextView
-            android:id="@+id/tv_items"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/ll_buttons"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="1" />
-
-        <ImageButton
-            android:id="@+id/ib_delete"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:padding="8dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_delete_fill0_wght400_grad0_opsz48"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
-
-        <LinearLayout
-            android:id="@+id/ll_buttons"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_items">
-
-            <ImageButton
-                android:id="@+id/btn_subtract"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_circle"
-                android:padding="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_remove"
-                android:textColor="?colorSurface"
-                android:textStyle="bold"
-                app:backgroundTint="?colorOnBackground" />
-
-            <Space
-                android:layout_width="20dp"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/btn_add"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_circle"
-                android:padding="4dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_add_fill0_wght400_grad0_opsz48"
-                android:textColor="?colorSurface"
-                app:backgroundTint="?colorOnBackground" />
-
-        </LinearLayout>
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintEnd_toStartOf="@+id/btn_subtract"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Apple" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+    <!--        TODO MAKE the item swipe to delete-able-->
+    <ImageButton
+        android:id="@+id/ib_delete"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_delete_fill0_wght400_grad0_opsz48"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+
+    <ImageButton
+        android:id="@+id/btn_subtract"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_circle"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_remove"
+        android:textColor="?colorSurface"
+        android:textStyle="bold"
+        app:backgroundTint="#C00"
+        app:layout_constraintEnd_toStartOf="@+id/tv_items"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_items"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_add"
+        app:layout_constraintEnd_toStartOf="@+id/btn_add"
+        app:layout_constraintTop_toTopOf="@+id/btn_add"
+        tools:text="1" />
+
+    <ImageButton
+        android:id="@+id/btn_add"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/bg_circle"
+        android:padding="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_add_fill0_wght400_grad0_opsz48"
+        android:textColor="?colorSurface"
+        app:backgroundTint="#0A0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HIGH"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

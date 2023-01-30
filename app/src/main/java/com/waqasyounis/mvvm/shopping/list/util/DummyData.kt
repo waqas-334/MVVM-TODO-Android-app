@@ -1,5 +1,6 @@
 package com.waqasyounis.mvvm.shopping.list.util
 
+import com.waqasyounis.mvvm.shopping.list.db.entities.Priority
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
 
 class DummyData {
@@ -7,11 +8,11 @@ class DummyData {
     companion object {
         val shoppingItems: List<ShoppingItem>
             get() = listOf(
-                ShoppingItem(name = "Apple", noOfItems = 1),
-                ShoppingItem(name = "Mango", noOfItems = 2),
-                ShoppingItem(name = "Pine Apple", noOfItems = 3),
-                ShoppingItem(name = "Banana", noOfItems = 4),
-                ShoppingItem(name = "Apricot", noOfItems = 5),
+                ShoppingItem(name = "A", noOfItems = 1, Priority.LOW),
+                ShoppingItem(name = "B", noOfItems = 2, Priority.MEDIUM),
+                ShoppingItem(name = "C", noOfItems = 3, Priority.HIGH),
+                ShoppingItem(name = "D", noOfItems = 4, Priority.MEDIUM),
+                ShoppingItem(name = "E", noOfItems = 5, Priority.LOW),
             )
     }
 }

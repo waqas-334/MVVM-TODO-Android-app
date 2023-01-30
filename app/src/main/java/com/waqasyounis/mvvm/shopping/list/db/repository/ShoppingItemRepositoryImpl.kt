@@ -3,6 +3,7 @@ package com.waqasyounis.mvvm.shopping.list.db.repository
 import androidx.room.Update
 import com.waqasyounis.mvvm.shopping.list.db.dao.ShoppingItemDao
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
+import com.waqasyounis.mvvm.shopping.list.ui.SortOrder
 import javax.inject.Inject
 
 class ShoppingItemRepositoryImpl @Inject
@@ -17,4 +18,6 @@ constructor(
 
     suspend fun delete(shoppingItem: ShoppingItem) = dao.delete(shoppingItem)
     suspend fun insertItems(shoppingItems: List<ShoppingItem>) = dao.insertItems(shoppingItems)
+
+    suspend fun sort(sortOrder: SortOrder) = dao.sort(sortOrder)
 }

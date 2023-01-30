@@ -70,6 +70,37 @@
 
     </LinearLayout>
 
+    <RadioGroup
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/ll"
+        android:id="@+id/rg_priority"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/ll"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:text="High"
+            android:checked="true"
+            android:id="@+id/rb_high"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:text="Medium"
+            android:id="@+id/rb_medium"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:text="Low"
+            android:id="@+id/rb_low"
+            android:layout_height="wrap_content"/>
+
+
+    </RadioGroup>
+
 
     <Button
         android:id="@+id/btn_add"
@@ -78,6 +109,7 @@
         android:layout_marginTop="16dp"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_priority"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
