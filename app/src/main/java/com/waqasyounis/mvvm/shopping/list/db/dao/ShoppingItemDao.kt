@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
 import com.waqasyounis.mvvm.shopping.list.ui.SortOrder
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ShoppingItemDao {
@@ -18,7 +19,7 @@ interface ShoppingItemDao {
     fun delete(shoppingItem: ShoppingItem)
 
     @Query("SELECT * FROM shoppingitem")
-    fun getAllItems(): LiveData<List<ShoppingItem>>
+    fun getAllItems(): Flow<List<ShoppingItem>>
 
     @Insert
     fun insertItems(shoppingItems: List<ShoppingItem>)
@@ -29,6 +30,7 @@ interface ShoppingItemDao {
     fun sort(sortOrder: SortOrder) = when(sortOrder){
         SortOrder.QUANTITY_ASC -> sortByQuantityAsc()
         SortOrder.QUANTITY_DESC -> sortByQuantityDesc()
+        else -> {}
     }
 
     @Query("SELECT * FROM shoppingitem ORDER BY noOfItems ASC")

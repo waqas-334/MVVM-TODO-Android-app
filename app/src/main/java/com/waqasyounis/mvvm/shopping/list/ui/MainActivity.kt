@@ -50,6 +50,11 @@ class MainActivity : AppCompatActivity(), ItemListener {
 
     }
 
+    private fun initDatabase() {
+        viewModel.itemUiModel.observe(this) {
+            adapter.differ.submitList(it.listOfItems)
+        }
+    }
     private fun initObservers() {
         lifecycleScope.launchWhenCreated {
             viewModel.tasksEvent.collect { event ->
@@ -78,23 +83,16 @@ class MainActivity : AppCompatActivity(), ItemListener {
         return when (item.itemId) {
             R.id.action_sort_by_quantity_asc -> {
                 viewModel.sortSelected(SortOrder.QUANTITY_ASC)
-                Toast.makeText(this@MainActivity, "Coming Soon", Toast.LENGTH_LONG).show()
                 true
             }
             R.id.action_sort_by_quantity_desc -> {
                 viewModel.sortSelected(SortOrder.QUANTITY_DESC)
-                Toast.makeText(this@MainActivity, "Coming Soon", Toast.LENGTH_LONG).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun initDatabase() {
-        viewModel.getAllItems().observe(this) {
-            adapter.differ.submitList(it)
-        }
-    }
 
     private fun initViews() {
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallBack(adapter, this))
@@ -146,4 +144,5 @@ class MainActivity : AppCompatActivity(), ItemListener {
 enum class SortOrder {
     QUANTITY_ASC,
     QUANTITY_DESC,
+    NONE,
 }
