@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), ItemListener {
                                 viewModel.onUndoDelete(event.item)
                             }.show()
                     }
+
                 }
             }
         }

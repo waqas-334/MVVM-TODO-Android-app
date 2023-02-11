@@ -48,14 +48,17 @@
         android:textColor="?colorSurface"
         android:textStyle="bold"
         app:backgroundTint="#C00"
-        app:layout_constraintEnd_toStartOf="@+id/tv_items"
+        app:layout_constraintEnd_toStartOf="@+id/textSwitcher"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_items"
+    <TextSwitcher
+        android:id="@+id/textSwitcher"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginHorizontal="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintBottom_toBottomOf="@+id/btn_add"
         app:layout_constraintEnd_toStartOf="@+id/btn_add"
