@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.waqasyounis.mvvm.shopping.list.db.dao.ShoppingItemDao
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
-import javax.inject.Inject
 
 @Database(
     entities = [ShoppingItem::class],
@@ -34,7 +33,5 @@ abstract class AppDatabase : RoomDatabase() {
                     INSTANCE = it
                 }
             }
-
     }
-
 }
