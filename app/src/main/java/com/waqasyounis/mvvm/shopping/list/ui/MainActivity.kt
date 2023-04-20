@@ -1,44 +1,36 @@
 package com.waqasyounis.mvvm.shopping.list.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.waqasyounis.mvvm.shopping.list.R
 import com.waqasyounis.mvvm.shopping.list.databinding.ActivityMainBinding
-import com.waqasyounis.mvvm.shopping.list.db.AppDatabase
 import com.waqasyounis.mvvm.shopping.list.db.entities.ShoppingItem
-import com.waqasyounis.mvvm.shopping.list.db.repository.ShoppingItemRepositoryImpl
-import com.waqasyounis.mvvm.shopping.list.ui.adapter.ItemListener
+import com.waqasyounis.mvvm.shopping.list.ui.AddItemBottomSheetDialogFragment.Companion.ADD_ITEM_REQUEST_KEY
+import com.waqasyounis.mvvm.shopping.list.ui.AddItemBottomSheetDialogFragment.Companion.SHOPPING_ITEM_BUNDLE_KEY
 import com.waqasyounis.mvvm.shopping.list.ui.adapter.ShoppingItemAdapter
+import com.waqasyounis.mvvm.shopping.list.ui.adapter.ShoppingItemListener
 import com.waqasyounis.mvvm.shopping.list.ui.adapter.SwipeToDeleteCallBack
 import com.waqasyounis.mvvm.shopping.list.util.DummyData
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import javax.inject.Inject
-
-private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ItemListener {
+class MainActivity : AppCompatActivity(), ShoppingItemListener {
 
     private val viewModel: MainViewModel by viewModels()
-
+    private val addItemBottomSheetDialogFragment = AddItemBottomSheetDialogFragment.INSTANCE
     private lateinit var binding: ActivityMainBinding
     private val adapter by lazy {
         ShoppingItemAdapter(this@MainActivity)
-
     }
-    private val addBottomSheet = AddItemBottomSheet.INSTANCE
+
+    private fun addDummyData() = viewModel.addItems(DummyData.shoppingItems)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,31 +39,38 @@ class MainActivity : AppCompatActivity(), ItemListener {
         initViews()
         initDatabase()
         initObservers()
-
+        onResultListeners()
     }
 
     private fun initDatabase() {
         viewModel.itemUiModel.observe(this) {
-            adapter.differ.submitList(it.listOfItems)
+            adapter.setItems(it.listOfItems)
         }
     }
+
     private fun initObservers() {
         lifecycleScope.launchWhenCreated {
             viewModel.tasksEvent.collect { event ->
                 when (event) {
                     is MainViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
                         Snackbar.make(
-                            binding.root,
-                            "${event.item.name} deleted",
-                            Snackbar.LENGTH_LONG
-                        )
-                            .setAction("UNDO") {
-                                viewModel.onUndoDelete(event.item)
-                            }.show()
+                            binding.root, "${event.item.name} deleted", Snackbar.LENGTH_LONG
+                        ).setAction("UNDO") {
+                            viewModel.onUndoDelete(event.item)
+                        }.show()
                     }
                 }
             }
         }
+    }
+
+    private fun onResultListeners() {
+        supportFragmentManager
+            .setFragmentResultListener(ADD_ITEM_REQUEST_KEY, this) { requestKey, bundle ->
+                bundle.getParcelable<ShoppingItem>(SHOPPING_ITEM_BUNDLE_KEY)?.let { shoppingItem ->
+                    viewModel.addItem(shoppingItem)
+                }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,7 +92,6 @@ class MainActivity : AppCompatActivity(), ItemListener {
         }
     }
 
-
     private fun initViews() {
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallBack(adapter, this))
         itemTouchHelper.attachToRecyclerView(binding.rv)
@@ -104,7 +102,7 @@ class MainActivity : AppCompatActivity(), ItemListener {
             rv.addItemDecoration(decoration)
 
             fab.setOnClickListener {
-                fabClicked()
+                onFabClick()
             }
 
             fab.setOnLongClickListener {
@@ -112,37 +110,24 @@ class MainActivity : AppCompatActivity(), ItemListener {
                 true
             }
         }
-
-
     }
 
-    private fun addDummyData() = viewModel.addItems(DummyData.shoppingItems)
-
-    private fun fabClicked() {
-        addBottomSheet.show(supportFragmentManager) {
-            viewModel.addItem(it)
-        }
+    private fun onFabClick() {
+        addItemBottomSheetDialogFragment.show(
+            supportFragmentManager,
+            AddItemBottomSheetDialogFragment.FRAGMENT_NAME
+        )
     }
 
-    override fun onAddClicked(item: ShoppingItem) {
-        viewModel.addItem(item.increase())
+    override fun updateShoppingItem(item: ShoppingItem) {
+        viewModel.updateItem(item)
     }
 
-    override fun onSubtractClicked(item: ShoppingItem) {
-        viewModel.updateItem(item.decrease())
-    }
-
-    //    override fun onDeleteClicked(item: ShoppingItem) {
-//        viewModel.deleteItem(item)
-//    }
-    override fun onDeleteClicked(item: ShoppingItem) {
+    override fun onDeleteClick(item: ShoppingItem) {
         viewModel.deleteItem(item)
     }
-
 }
 
 enum class SortOrder {
-    QUANTITY_ASC,
-    QUANTITY_DESC,
-    NONE,
+    QUANTITY_ASC, QUANTITY_DESC, NONE,
 }

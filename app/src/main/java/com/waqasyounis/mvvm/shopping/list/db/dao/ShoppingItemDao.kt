@@ -27,16 +27,15 @@ interface ShoppingItemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(item: ShoppingItem)
 
-    fun sort(sortOrder: SortOrder) = when(sortOrder){
+    @Query("SELECT * FROM shoppingitem ORDER BY noOfItems ASC")
+    fun sortByQuantityAsc(): LiveData<List<ShoppingItem>>
+
+    @Query("SELECT * FROM shoppingitem ORDER BY noOfItems DESC")
+    fun sortByQuantityDesc(): LiveData<List<ShoppingItem>>
+
+    fun sort(sortOrder: SortOrder) = when (sortOrder) {
         SortOrder.QUANTITY_ASC -> sortByQuantityAsc()
         SortOrder.QUANTITY_DESC -> sortByQuantityDesc()
         else -> {}
     }
-
-    @Query("SELECT * FROM shoppingitem ORDER BY noOfItems ASC")
-    abstract fun sortByQuantityAsc(): LiveData<List<ShoppingItem>>
-
-    @Query("SELECT * FROM shoppingitem ORDER BY noOfItems DESC")
-    abstract fun sortByQuantityDesc(): LiveData<List<ShoppingItem>>
-
 }
